@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orion — Monitoramento Operacional</title>
+<meta name="description" content="Orion monitora fila, TME, TMA e nível de serviço diretamente no navegador, com alertas inteligentes e widget integrado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="top">
+  <div class="header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="9" fill="url(#gradMark)"/>
+          <path d="M10 22V13.5C10 11.567 11.567 10 13.5 10H14.8C15.9 10 16.4 11.35 15.6 12.1L10.9 16.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="18.2" y="17" width="1.8" height="5" rx="0.9" fill="#8FE3EC"/>
+          <rect x="21.2" y="14.5" width="1.8" height="7.5" rx="0.9" fill="#8FE3EC"/>
+          <rect x="24.2" y="12" width="1.8" height="10" rx="0.9" fill="#fff"/>
+          <defs>
+            <linearGradient id="gradMark" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#123246"/>
+              <stop offset="1" stop-color="#0A1622"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <span class="brand-word">Orion</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="#top" class="nav-link">Início</a>
+      <a href="#recursos" class="nav-link">Recursos</a>
+      <a href="#primeiro-acesso" class="nav-link">Primeiro Acesso</a>
+      <a href="#configuracoes" class="nav-link">Configurações</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="#sugestoes" class="nav-link">Sugestões</a>
+    </nav>
+
+    <a href="#" class="btn btn-primary btn-small" id="install-btn-header" data-install-link>
+      Instalar Extensão
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Navegação móvel">
+    <a href="#top" class="nav-link">Início</a>
+    <a href="#recursos" class="nav-link">Recursos</a>
+    <a href="#primeiro-acesso" class="nav-link">Primeiro Acesso</a>
+    <a href="#configuracoes" class="nav-link">Configurações</a>
+    <a href="#faq" class="nav-link">FAQ</a>
+    <a href="#sugestoes" class="nav-link">Sugestões</a>
+    <a href="#" class="btn btn-primary" data-install-link>Instalar Extensão</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="section-inner hero-inner">
+    <div class="hero-copy reveal">
+      <p class="eyebrow">Extensão para Chrome e Edge · Vertical Food</p>
+      <h1>Orion</h1>
+      <p class="hero-subtitle">Monitoramento inteligente da operação, em tempo real</p>
+      <p class="hero-text">
+        Acompanhe fila, TME, TMA e nível de serviço diretamente do navegador,
+        sem precisar manter dashboards abertos durante todo o expediente.
+      </p>
+      <p class="hero-text-secondary">
+        Desenvolvido pela liderança para analistas e coordenadores que precisam
+        acompanhar a operação com rapidez, praticidade e alertas configuráveis.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary btn-large" data-install-link>Instalar Extensão</a>
+        <a href="#primeiro-acesso" class="btn btn-ghost btn-large">Guia de Primeiro Acesso</a>
+      </div>
+      <div class="store-status" id="storeStatus"></div>
+    </div>
+
+    <div class="hero-visual reveal" aria-hidden="true">
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="browser-url">suportelinx.my.site.com/Wallboard</span>
+        </div>
+        <div class="browser-body">
+          <div class="widget-mock" id="widgetMock">
+            <div class="widget-mock-head">
+              <span class="widget-mock-title">
+                <span class="ping-dot"><span class="ping-ring"></span></span>
+                Orion
+              </span>
+              <span class="widget-mock-controls">
+                <span class="wm-btn" title="Fixar lateral"></span>
+                <span class="wm-btn" title="Minimizar">–</span>
+              </span>
+            </div>
+
+            <div class="widget-mock-status">
+              <span class="status-chip status-live">Online</span>
+              <span class="widget-mock-sync">Sincronizado há <span id="syncSeconds">3</span>s</span>
+            </div>
+
+            <div class="widget-mock-queue">
+              <span class="wq-label">Fila em espera</span>
+              <span class="wq-value">2</span>
+            </div>
+
+            <div class="widget-mock-grid">
+              <div class="wm-stat">
+                <span class="wm-stat-label">TME</span>
+                <span class="wm-stat-value">00:24</span>
+              </div>
+              <div class="wm-stat">
+                <span class="wm-stat-label">TMA</span>
+                <span class="wm-stat-value">04:52</span>
+              </div>
+              <div class="wm-stat wm-stat-warn">
+                <span class="wm-stat-label">Nível de Serviço</span>
+                <span class="wm-stat-value">87%</span>
+              </div>
+            </div>
+
+            <button class="wm-refresh" id="wmRefresh" type="button">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5V6h-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Atualizar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual-caption">Réplica ilustrativa do widget — funciona sobre a página do Wallboard</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ O QUE É ============ -->
+<section class="section" id="sobre">
+  <div class="section-inner about-inner reveal">
+    <p class="eyebrow eyebrow-center">O que é o Orion</p>
+    <h2 class="section-title center">Uma forma mais simples de acompanhar a operação</h2>
+    <p class="section-lead center">
+      O Orion foi desenvolvido internamente para eliminar a necessidade de manter
+      dashboards abertos durante todo o expediente. A extensão trabalha em segundo
+      plano, monitora os indicadores automaticamente e avisa a equipe apenas quando
+      algo realmente exige atenção.
+    </p>
+    <div class="about-grid">
+      <div class="about-item">
+        <span class="about-num">01</span>
+        <h3>Roda em segundo plano</h3>
+        <p>Consome poucos recursos do navegador e continua monitorando mesmo com o widget fechado.</p>
+      </div>
+      <div class="about-item">
+        <span class="about-num">02</span>
+        <h3>Duas fontes, uma leitura</h3>
+        <p>Combina os dados do Wallboard (fila, TME, TMA, nível de serviço) com o tempo individual de atendimento por analista.</p>
+      </div>
+      <div class="about-item">
+        <span class="about-num">03</span>
+        <h3>Avisa, não interrompe</h3>
+        <p>Alertas sonoros e notificações do sistema chegam só quando um limite configurado é ultrapassado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECURSOS ============ -->
+<section class="section section-alt" id="recursos">
+  <div class="section-inner reveal">
+    <p class="eyebrow eyebrow-center">Recursos</p>
+    <h2 class="section-title center">Tudo o que a operação precisa acompanhar</h2>
+
+    <div class="features-grid">
+      <article class="feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.2 1.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3>Monitoramento em Tempo Real</h3>
+        <p>Fila, TME, TMA e nível de serviço sincronizados automaticamente a cada 15 segundos, sem recarregar nada.</p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 4c-3 0-4.5 2.3-4.5 5v3.2L6 15v1h12v-1l-1.5-2.8V9c0-2.7-1.5-5-4.5-5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </span>
+        <h3>Alertas Inteligentes</h3>
+        <p>Cada métrica tem limite, prioridade e repetição configuráveis de forma independente — sem excesso de ruído.</p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="1.6"/></svg>
+        </span>
+        <h3>Configuração Personalizada</h3>
+        <p>Escolha quais filas acompanhar e defina, para cada indicador, o exato ponto em que um alerta faz sentido.</p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M9 20h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </span>
+        <h3>Widget Flutuante</h3>
+        <p>Integrado, fixo na lateral ou em janela desacoplada — arraste, redimensione e minimize como preferir.</p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="6" width="17" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 10.5h2M7.5 13.5h5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </span>
+        <h3>Atalhos de Teclado</h3>
+        <p>Abra o popup, o painel ou mostre e oculte o widget sem tirar as mãos do teclado — tudo reconfigurável.</p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0 1 13.7-5.7L20 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M20 4v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12a8 8 0 0 1-13.7 5.7L4 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4 20v-4h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3>Atualização Automática</h3>
+        <p>Sincronização a cada 15 segundos no popup e 20 no painel, com um botão para atualizar na hora quando quiser.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRIMEIRO ACESSO ============ -->
+<section class="section" id="primeiro-acesso">
+  <div class="section-inner reveal">
+    <p class="eyebrow eyebrow-center">Guia de Primeiro Acesso</p>
+    <h2 class="section-title center">Três passos para começar</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-marker">1</div>
+        <div class="timeline-content">
+          <h3>Instalar a extensão</h3>
+          <p>Clique em <strong>Instalar Extensão</strong> no topo da página e confirme a adição ao Chrome ou Edge.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marker">2</div>
+        <div class="timeline-content">
+          <h3>Fixar na barra do navegador</h3>
+          <p>Clique no ícone de extensões (peça de quebra-cabeça), localize <strong>Orion</strong> na lista e clique no alfinete para fixá-lo.</p>
+          <ol class="mini-steps">
+            <li>Clique em <em>Extensões</em> na barra do navegador.</li>
+            <li>Localize <em>Orion</em> na lista.</li>
+            <li>Clique em <em>Fixar</em>.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marker">3</div>
+        <div class="timeline-content">
+          <h3>Abrir e configurar</h3>
+          <p>Clique no ícone do Orion para abrir o popup e acesse <strong>Configurações</strong> para escolher filas, alertas e modo do widget antes de começar a usar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ATALHOS ============ -->
+<section class="section section-alt" id="atalhos">
+  <div class="section-inner reveal">
+    <p class="eyebrow eyebrow-center">Atalhos de Teclado</p>
+    <h2 class="section-title center">Acesso rápido, sem tirar as mãos do teclado</h2>
+    <p class="section-lead center">
+      Os atalhos abaixo são sugestões de fábrica e podem ser alterados a qualquer
+      momento em <code>chrome://extensions/shortcuts</code> (ou <code>edge://extensions/shortcuts</code>).
+    </p>
+
+    <div class="shortcuts-grid">
+      <div class="shortcut-card">
+        <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Shift</kbd><span>+</span><kbd>F</kbd></div>
+        <p>Abrir o popup do Orion</p>
+      </div>
+      <div class="shortcut-card">
+        <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Shift</kbd><span>+</span><kbd>D</kbd></div>
+        <p>Abrir o painel de gerência</p>
+      </div>
+      <div class="shortcut-card">
+        <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Shift</kbd><span>+</span><kbd>O</kbd></div>
+        <p>Abrir as configurações</p>
+      </div>
+      <div class="shortcut-card">
+        <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Shift</kbd><span>+</span><kbd>W</kbd></div>
+        <p>Mostrar ou ocultar o widget</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONFIGURAÇÕES (grupo) ============ -->
+<section class="section" id="configuracoes">
+  <div class="section-inner reveal">
+    <p class="eyebrow eyebrow-center">Configurações</p>
+    <h2 class="section-title center">Cada operação acompanha do seu jeito</h2>
+
+    <!-- Widget modes -->
+    <div class="config-block">
+      <div class="config-text">
+        <h3>Modo de exibição do widget</h3>
+        <p>Escolha como o Orion aparece sobre a página do Wallboard. A troca pode ser feita a qualquer momento, direto pelo cabeçalho do próprio widget.</p>
+      </div>
+      <div class="widget-modes">
+        <button class="mode-tab is-active" data-mode="flutuante">Flutuante</button>
+        <button class="mode-tab" data-mode="lateral">Barra Lateral</button>
+        <button class="mode-tab" data-mode="janela">Janela Desacoplada</button>
+      </div>
+      <div class="mode-panel" id="modePanel">
+        <p data-mode-desc="flutuante">Solta sobre a página, com cabeçalho arrastável e canto redimensionável. Clicar fora recolhe o widget para uma faixa mínima.</p>
+        <p data-mode-desc="lateral" hidden>Fixo na borda direita, ocupando a altura da tela, sem sobrepor o conteúdo do Wallboard.</p>
+        <p data-mode-desc="janela" hidden>Abre em uma janela separada de verdade, que pode ser movida e redimensionada como qualquer janela do sistema.</p>
+      </div>
+    </div>
+
+    <!-- Filas -->
+    <div class="config-block" id="filas">
+      <div class="config-text">
+        <h3>Filas monitoradas</h3>
+        <p>Por padrão, todas as filas ficam selecionadas. É possível acompanhar apenas as que interessam para o seu time — a mesma seleção também filtra a tabela de analistas do Painel RC.</p>
+      </div>
+      <div class="checklist">
+        <label class="checkbox-row"><input type="checkbox" checked disabled><span>Delivery — Suporte Geral</span></label>
+        <label class="checkbox-row"><input type="checkbox" checked disabled><span>Delivery — Pagamentos</span></label>
+        <label class="checkbox-row"><input type="checkbox" checked disabled><span>Marketplace — Cadastro</span></label>
+        <label class="checkbox-row"><input type="checkbox" checked disabled><span>Marketplace — Financeiro</span></label>
+      </div>
+    </div>
+
+    <!-- Indicadores -->
+    <div class="config-block" id="indicadores">
+      <div class="config-text">
+        <h3>Indicadores e limites de alerta</h3>
+        <p>TMA, TME e nível de serviço podem ser ativados ou desativados individualmente. Os tempos definidos aqui são usados tanto pelo widget quanto pelas notificações do sistema.</p>
+      </div>
+      <div class="indicator-list">
+        <div class="indicator-row">
+          <label class="checkbox-row"><input type="checkbox" checked disabled><span>TMA — Tempo Médio de Atendimento</span></label>
+          <div class="mini-input"><input type="text" value="05:00" disabled><span>alerta acima de</span></div>
+        </div>
+        <div class="indicator-row">
+          <label class="checkbox-row"><input type="checkbox" checked disabled><span>TME — Tempo Médio de Espera</span></label>
+          <div class="mini-input"><input type="text" value="00:30" disabled><span>alerta acima de</span></div>
+        </div>
+        <div class="indicator-row">
+          <label class="checkbox-row"><input type="checkbox" checked disabled><span>Nível de Serviço</span></label>
+          <div class="mini-input"><input type="text" value="85%" disabled><span>alerta abaixo de</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Salvar -->
+    <div class="save-callout">
+      <div>
+        <h3>As alterações só têm efeito após salvar</h3>
+        <p>Ajustou filas, limites ou modo do widget? Nada muda até você confirmar em <strong>Salvar Configurações</strong>, na tela de opções.</p>
+      </div>
+      <button class="btn btn-primary" type="button" disabled>Salvar Configurações</button>
+    </div>
+
+    <!-- Atualização dos dados -->
+    <div class="config-block">
+      <div class="config-text">
+        <h3>Atualização dos dados</h3>
+        <p>Para preservar o desempenho do navegador, a sincronização automática acontece a cada 15 segundos no popup e a cada 20 no painel de gerência. Quando precisar de um número mais recente na hora, o botão <strong>Atualizar Agora</strong> força uma nova consulta.</p>
+      </div>
+    </div>
+
+    <!-- Configurações individuais -->
+    <div class="config-block">
+      <div class="config-text">
+        <h3>Configurações individuais</h3>
+        <p>
+          Tudo fica salvo localmente, no próprio navegador. Cada computador tem
+          suas próprias configurações, Chrome e Edge não compartilham nada entre
+          si, e não existe sincronização automática entre dispositivos — cada
+          colaborador personaliza a própria experiência, sem afetar a dos demais.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section section-alt" id="faq">
+  <div class="section-inner faq-inner reveal">
+    <p class="eyebrow eyebrow-center">Perguntas Frequentes</p>
+    <h2 class="section-title center">FAQ</h2>
+
+    <div class="accordion" id="accordion">
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          Como alterar os atalhos de teclado?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-panel">
+          <p>Acesse <code>chrome://extensions/shortcuts</code> (ou <code>edge://extensions/shortcuts</code>) e defina a combinação desejada para cada comando. Também há um atalho direto para essa tela na página de Configurações do Orion.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          Como acompanhar apenas uma fila?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-panel">
+          <p>Em Configurações, na seção Filas, desmarque as filas que não interessam ao seu time. A seleção vale tanto para os dados do Wallboard quanto para a tabela de analistas do Painel RC.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          O widget funciona em qualquer site?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-panel">
+          <p>O widget é injetado apenas na página do Wallboard. O atalho para mostrar ou ocultar funciona com a aba do Wallboard em foco; nas demais páginas ele não tem o que exibir.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          Como alterar os limites dos alertas?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-panel">
+          <p>Cada indicador — fila, volume do dia, TME, TMA e nível de serviço — tem seu próprio limite, prioridade e intervalo de repetição, ajustáveis de forma independente na tela de Configurações.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          Como desativar notificações?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-panel">
+          <p>Cada tipo de alerta tem uma chave liga/desliga individual em Configurações — é possível manter apenas os que fazem sentido para a sua rotina e desligar o restante.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          As configurações ficam salvas onde?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-panel">
+          <p>Localmente, no armazenamento do próprio navegador. Não há sincronização entre computadores ou entre Chrome e Edge — cada instalação mantém sua própria configuração.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUGESTÕES ============ -->
+<section class="section" id="sugestoes">
+  <div class="section-inner reveal">
+    <p class="eyebrow eyebrow-center">Sugestões</p>
+    <h2 class="section-title center">Alguma ideia para o Orion?</h2>
+    <p class="section-lead center">Sua sugestão vai direto para quem desenvolve a extensão.</p>
+
+    <form class="suggestion-card" id="suggestionForm">
+      <label class="field">
+        <span>Assunto</span>
+        <input type="text" id="suggestionSubject" placeholder="Ex.: Alerta para fila específica" required>
+      </label>
+      <label class="field">
+        <span>Mensagem</span>
+        <textarea id="suggestionMessage" rows="5" placeholder="Descreva sua ideia ou o problema encontrado..." required></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary btn-large">Enviar Sugestão</button>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="section-inner footer-inner">
+    <div class="footer-brand">
+      <span class="brand-word footer-word">Orion</span>
+      <p>Monitoramento Inteligente para Operações</p>
+      <p class="footer-version">v1.7.0 · Since 2026</p>
+    </div>
+    <div class="footer-meta">
+      <p>Desenvolvido por</p>
+      <p class="footer-authors">Ruan Nascimento &amp; Jefferson Torres</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
