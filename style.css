@@ -158,6 +158,7 @@ kbd{
   margin-right: auto;
 }
 .brand-mark{ width: 30px; height: 30px; flex-shrink: 0; }
+.brand-mark img{ width: 100%; height: 100%; object-fit: contain; }
 .brand-word{
   font-weight: 800;
   font-size: 1.15rem;
@@ -810,6 +811,8 @@ kbd{
 .site-footer{ background: var(--navy-950); color: rgba(255,255,255,0.75); padding: 56px 0 40px; }
 .footer-inner{ display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
 .footer-word{ color: #fff; font-size: 1.3rem; }
+.footer-brand-top{ display: flex; align-items: center; gap: 10px; }
+.footer-mark{ display: block; object-fit: contain; }
 .footer-brand p{ margin: 8px 0 0; font-size: 0.9rem; color: rgba(255,255,255,0.55); }
 .footer-version{ font-family: var(--font-mono); font-size: 0.78rem !important; color: rgba(255,255,255,0.4) !important; margin-top: 6px !important; }
 .footer-meta{ text-align: right; }
